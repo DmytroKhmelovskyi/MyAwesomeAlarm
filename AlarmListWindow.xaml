@@ -3,15 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        DataContext="MyAwesomeAlarm.ViewModels.AlarmListWindowViewModel"
         xmlns:local="clr-namespace:MyAwesomeAlarm"
         mc:Ignorable="d"
-        Title="AlarmListWindow" Height="450" Width="800">
+        Title="AlarmListWindow" Height="250" Width="420">
   <Grid>
-    <DataGrid ItemsSource="{Binding Alarms}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="181" Margin="10,10,0,0" VerticalAlignment="Top" Width="704">
-      <DataGrid.Columns>
+    <DataGrid ItemsSource="{Binding Alarms}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="400">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction  Command="{Binding Path=AlarmsList_ListChanged}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DataGrid.Columns>
         <DataGridTextColumn Header="Hour" Binding="{Binding Hours}" IsReadOnly="False" Width="90" />
         <DataGridTextColumn Header="Minute" Binding="{Binding Minutes}" IsReadOnly="False" Width="80" />
-        <DataGridTextColumn Header="Days" Binding="{Binding Days}" IsReadOnly="False" Width="50" />
+        <DataGridTextColumn Header="Days" Binding="{Binding Days}" IsReadOnly="False" Width="100" />
       </DataGrid.Columns>
     </DataGrid>
   </Grid>

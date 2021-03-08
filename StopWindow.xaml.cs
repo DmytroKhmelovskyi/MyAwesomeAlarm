@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyAwesomeAlarm.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,11 @@ namespace MyAwesomeAlarm
     /// </summary>
     public partial class StopWindow : Window
     {
+        private readonly StopWindowViewModel viewModel = new StopWindowViewModel(); 
         public StopWindow()
         {
             InitializeComponent();
+            this.DataContext = viewModel;
         }
     }
 }

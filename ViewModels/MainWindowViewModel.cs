@@ -22,17 +22,20 @@ namespace MyAwesomeAlarm.ViewModels
         readonly DispatcherTimer timer = new DispatcherTimer();
         public DispatcherTimer _timer;
         public event PropertyChangedEventHandler PropertyChanged;
+        private string _currentTime;
+        private string _currentDate;
         public MainWindowViewModel()
         {
             LoadCommands();
             timer.Interval = TimeSpan.FromSeconds(1);
-            //  timer.Tick += Timer_Tick;
+            timer.Tick += Timer_Tick;
             timer.Start();
             _timer = new DispatcherTimer(DispatcherPriority.Render);
             _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += (sender, args) =>
             {
-                // CurrentTime = DateTime.Now.ToLongTimeString();
+                CurrentTime = DateTime.Now.ToLongTimeString();
+                CurrentDate = $"{DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year}";
             };
             _timer.Start();
         }
@@ -43,6 +46,7 @@ namespace MyAwesomeAlarm.ViewModels
         public ICommand SetTheAlarmCommand { get; set; }
         public ICommand AlarmListCommand { get; set; }
         public ICommand ChooseSongCommand { get; set; }
+        public ICommand TestPlayCommand { get; set; }
 
         public int Hours
         {
@@ -189,6 +193,34 @@ namespace MyAwesomeAlarm.ViewModels
                 }
             }
         }
+        public string CurrentTime
+        {
+            get
+            {
+                return _currentTime;
+            }
+            set
+            {
+                if (_currentTime == value)
+                    return;
+                _currentTime = value;
+                OnPropertyChanged("CurrentTime");
+            }
+        } 
+        public string CurrentDate
+        {
+            get
+            {
+                return _currentDate;
+            }
+            set
+            {
+                if (_currentDate == value)
+                    return;
+                _currentDate = value;
+                OnPropertyChanged("CurrentDate");
+            }
+        }
         private void LoadCommands()
         {
             BtnHoursDownCommand = new RelayCommand(BtnHoursDownClick, CanBtnHoursDownClick);
@@ -198,6 +230,7 @@ namespace MyAwesomeAlarm.ViewModels
             SetTheAlarmCommand = new RelayCommand(SetTheAlarmClick, CanSetTheAlarmClick);
             AlarmListCommand = new RelayCommand(AlarmListClick, CanAlarmListClick);
             ChooseSongCommand = new RelayCommand(LoadClick, CanLoadClick);
+            TestPlayCommand = new RelayCommand(TestClick, CanTestClick);
         }
         public void Timer_Tick(object sender, EventArgs e)
         {
@@ -225,6 +258,14 @@ namespace MyAwesomeAlarm.ViewModels
             chldWindow.DataContext = viewModel;
             viewModel.AlarmOnSound();
             chldWindow.Show();
+
+        }
+        private void TestClick(object obj)
+        {
+            var viewModel = new StopWindowViewModel();
+            viewModel.AlarmSongUrl = alarmSongUrl;
+            viewModel.AlarmOnSound();
+            OpenStopWindow();
 
         }
         private void BtnHoursDownClick(object obj)
@@ -289,7 +330,11 @@ namespace MyAwesomeAlarm.ViewModels
         }
 
 
-        private bool CanLoadClick(object sender)
+        private bool CanTestClick(object obj)
+        {
+            return true;
+        }
+        private bool CanLoadClick(object obj)
         {
             return true;
         }
@@ -301,19 +346,19 @@ namespace MyAwesomeAlarm.ViewModels
         {
             return true;
         }
-        private bool CanBtnHoursDownClick(object sender)
+        private bool CanBtnHoursDownClick(object obj)
         {
             return true;
         }
-        private bool CanBtnHoursUpClick(object sender)
+        private bool CanBtnHoursUpClick(object obj)
         {
             return true;
         }
-        private bool CanBtnMinutesDownClick(object sender)
+        private bool CanBtnMinutesDownClick(object obj)
         {
             return true;
         }
-        private bool CanBtnMinutesUpClick(object sender)
+        private bool CanBtnMinutesUpClick(object obj)
         {
             return true;
         }
