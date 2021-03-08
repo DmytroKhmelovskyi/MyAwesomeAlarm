@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:MyAwesomeAlarm.ViewModels"
+         DataContext="MyAwesomeAlarm.ViewModels.MainWindowViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="600" Name="mainWindow">
-    <Grid  Background="DarkViolet" DataContext="MainWindowViewModel">
-    <Grid HorizontalAlignment="Left" Height="400" Margin="10,10,0,0" VerticalAlignment="Top" Width="570">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 -200 0 0" Height="175">
+    <Grid  Background="DarkViolet">
+        <Grid  HorizontalAlignment="Left" Height="400" Margin="10,10,0,0" VerticalAlignment="Top" Width="570">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 -200 0 0" Height="175">
                 <StackPanel Height="175" Margin="0,0,0,0">
                     <Button x:Name="btnHoursUp" Margin="5" Height="55" Width="100" Content="+1" >
                         <i:Interaction.Triggers>
@@ -18,18 +19,18 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <TextBox HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="{Binding Hours, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="110"/>
-                    <Button x:Name="btnHoursDown" Margin="5" Height="55" Width="100" Content="+1">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
+                    <TextBox HorizontalAlignment="Left" Height="20" TextAlignment="Center" Text="{Binding Hours, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="110"/>
+                    <Button x:Name="btnHoursDown" Margin="5" Height="55" Width="100" Content="-1">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding BtnHoursDownCommand}"></i:InvokeCommandAction>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </Button>
                 </StackPanel>
-                
+
                 <StackPanel VerticalAlignment="Center">
-                    <TextBox Text=":" FontSize="20" Height="30" Margin="0 -30 0 0" BorderThickness="0" Focusable="False" TextChanged="TextBox_TextChanged"/>
+                    <TextBox Text=":" FontSize="20" Height="30" Margin="0 -30 0 0" BorderThickness="0" Focusable="False"/>
                 </StackPanel>
 
                 <StackPanel Margin="0,0,0,0">
@@ -40,7 +41,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <TextBox HorizontalAlignment="Right" Height="20" TextWrapping="Wrap" Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="110"/>
+                    <TextBox HorizontalAlignment="Right" Height="20" TextAlignment="Center" Text="{Binding Minutes, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="110"/>
                     <Button x:Name="btnMinDown" Margin="5" Height="55" Width="100" Content="-1">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -50,14 +51,20 @@
                     </Button>
                 </StackPanel>
                 <StackPanel Height="165">
-                    <Button x:Name="SetTheAllarm" Content="SET" Width="100" Height="60" Margin="0 0 0 0" Click="SetTheAllarm_Click">
+                    <Button x:Name="SetTheAllarm" Content="SET" Width="100" Height="60" Margin="0 0 0 0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding SetTheAlarmCommand}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button x:Name="ChooseSong" Content="CHOOSE SONG" Width="100" Height="60" Margin="0 20 0 0" Click="SetTheAllarm_Click"/>
+                    <Button x:Name="ChooseSong" Content="CHOOSE SONG" Width="100" Height="60" Margin="0 20 0 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ChooseSongCommand}"></i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
                 </StackPanel>
                 <StackPanel Height="165">
                     <Button x:Name="AlarmList" Height="60"  Width="100" Margin="0 0 0 0" Content="ALARMS LIST">
@@ -67,10 +74,21 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button x:Name="Test" Height="60" Width="100" Margin="0 20 0 0" Content="PLAY" Click="Test_Click"/>
+                    <Button x:Name="Test" Height="60" Width="100" Margin="0 20 0 0" Content="PLAY"/>
                 </StackPanel>
+
             </StackPanel>
+            <StackPanel HorizontalAlignment="Left" Height="136" Margin="435,21,0,0" VerticalAlignment="Top" Width="133">
+                <CheckBox  HorizontalAlignment="Left" Content="Monday" Margin="20,0,0,0" IsChecked="{Binding Mon, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>
+                <CheckBox  HorizontalAlignment="Left" Content="Tuesday" Margin="20,0,0,0" IsChecked="{Binding Tue, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>
+                <CheckBox  HorizontalAlignment="Left" Content="Wednesday" Margin="20,0,0,0" IsChecked="{Binding Wed, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>
+                <CheckBox  HorizontalAlignment="Left" Content="Thursday" Margin="20,0,0,0" IsChecked="{Binding Thu, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>
+                <CheckBox  HorizontalAlignment="Left" Content="Friday" Margin="20,0,0,0" IsChecked="{Binding Fri, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>
+                <CheckBox  HorizontalAlignment="Left" Content="Saturday " Margin="20,0,0,0" IsChecked="{Binding Sat, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>
+                <CheckBox  HorizontalAlignment="Left" Content="Sunday" Margin="20,0,0,0" IsChecked="{Binding Sun, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>
+            </StackPanel>
+
         </Grid>
 
-  </Grid>
+    </Grid>
 </Window>

@@ -8,7 +8,7 @@ namespace MyAwesomeAlarm
     /// </summary>
     public partial class AlarmListWindow : Window
     {
-        private readonly AlarmListViewModel viewModel = new AlarmListViewModel();
+        private readonly AlarmListWindowViewModel viewModel = new AlarmListWindowViewModel();
         public AlarmListWindow()
         {
             InitializeComponent();

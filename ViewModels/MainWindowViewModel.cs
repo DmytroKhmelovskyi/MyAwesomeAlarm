@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using MyAwesomeAlarm.Commands;
 using MyAwesomeAlarm.Models;
@@ -10,12 +12,30 @@ using MyAwesomeAlarm.Services;
 
 namespace MyAwesomeAlarm.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string path = $"{Environment.CurrentDirectory}\\alarmlist.json";
+        private static readonly string path = $"{Environment.CurrentDirectory}\\alarmslist.json";
+        FileIOService fileIOService = new FileIOService(path);
         private readonly Alarm alarm = new Alarm();
         private string alarmSongUrl = "";
         private string _mediaName;
+        readonly DispatcherTimer timer = new DispatcherTimer();
+        public DispatcherTimer _timer;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public MainWindowViewModel()
+        {
+            LoadCommands();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            //  timer.Tick += Timer_Tick;
+            timer.Start();
+            _timer = new DispatcherTimer(DispatcherPriority.Render);
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += (sender, args) =>
+            {
+                // CurrentTime = DateTime.Now.ToLongTimeString();
+            };
+            _timer.Start();
+        }
         public ICommand BtnHoursDownCommand { get; set; }
         public ICommand BtnHoursUpCommand { get; set; }
         public ICommand BtnMinutesDownCommand { get; set; }
@@ -77,6 +97,86 @@ namespace MyAwesomeAlarm.ViewModels
                 OnPropertyChanged("Tue");
             }
         }
+        public bool Wed
+        {
+            get { return alarm.SelectedDays.Contains(DayOfWeek.Wednesday); }
+            set
+            {
+                if (value)
+                {
+                    alarm.SelectedDays.Add(DayOfWeek.Wednesday);
+                }
+                else
+                {
+                    alarm.SelectedDays.Remove(DayOfWeek.Wednesday);
+                }
+                OnPropertyChanged("Wed");
+            }
+        }
+        public bool Thu
+        {
+            get { return alarm.SelectedDays.Contains(DayOfWeek.Thursday); }
+            set
+            {
+                if (value)
+                {
+                    alarm.SelectedDays.Add(DayOfWeek.Thursday);
+                }
+                else
+                {
+                    alarm.SelectedDays.Remove(DayOfWeek.Thursday);
+                }
+                OnPropertyChanged("Thu");
+            }
+        }
+        public bool Fri
+        {
+            get { return alarm.SelectedDays.Contains(DayOfWeek.Friday); }
+            set
+            {
+                if (value)
+                {
+                    alarm.SelectedDays.Add(DayOfWeek.Friday);
+                }
+                else
+                {
+                    alarm.SelectedDays.Remove(DayOfWeek.Friday);
+                }
+                OnPropertyChanged("Fri");
+            }
+        }
+        public bool Sat
+        {
+            get { return alarm.SelectedDays.Contains(DayOfWeek.Saturday); }
+            set
+            {
+                if (value)
+                {
+                    alarm.SelectedDays.Add(DayOfWeek.Saturday);
+                }
+                else
+                {
+                    alarm.SelectedDays.Remove(DayOfWeek.Saturday);
+                }
+                OnPropertyChanged("Sat");
+            }
+        }
+        public bool Sun
+        {
+            get { return alarm.SelectedDays.Contains(DayOfWeek.Sunday); }
+            set
+            {
+                if (value)
+                {
+                    alarm.SelectedDays.Add(DayOfWeek.Sunday);
+                }
+                else
+                {
+                    alarm.SelectedDays.Remove(DayOfWeek.Sunday);
+                }
+                OnPropertyChanged("Sun");
+            }
+        }
         public string MediaName
         {
             get { return _mediaName; }
@@ -99,38 +199,66 @@ namespace MyAwesomeAlarm.ViewModels
             AlarmListCommand = new RelayCommand(AlarmListClick, CanAlarmListClick);
             ChooseSongCommand = new RelayCommand(LoadClick, CanLoadClick);
         }
+        public void Timer_Tick(object sender, EventArgs e)
+        {
+
+            DateTime currentTime = DateTime.Now;
+            var alarmList = fileIOService.LoadData();
+            foreach (var al in alarmList)
+            {
+                if ((!al.SelectedDays.Any() || al.SelectedDays.Contains(currentTime.DayOfWeek))
+                    && currentTime.Hour == al.Hours && currentTime.Second < 1)
+                {
+                    if (currentTime.Minute == al.Minutes)
+                    {
+                        OpenStopWindow();
+                    }
+
+                }
+            }
+        }
+        private void OpenStopWindow()
+        {
+            StopWindow chldWindow = new StopWindow();
+            var viewModel = new StopWindowViewModel();
+            viewModel.AlarmSongUrl = alarmSongUrl;
+            chldWindow.DataContext = viewModel;
+            viewModel.AlarmOnSound();
+            chldWindow.Show();
+
+        }
         private void BtnHoursDownClick(object obj)
         {
-            alarm.Hours--;
-            if (alarm.Hours < 0)
+            Hours--;
+            if (Hours < 0)
             {
-                alarm.Hours = 23;
+                Hours = 23;
             }
 
         }
         private void BtnHoursUpClick(object obj)
         {
-            alarm.Hours++;
-            if (alarm.Hours > 23)
+            Hours++;
+            if (Hours > 23)
             {
-                alarm.Hours = 0;
+                Hours = 0;
             }
         }
         private void BtnMinutesDownClick(object obj)
         {
-            alarm.Minutes--;
-            if (alarm.Minutes < 0)
+            Minutes--;
+            if (Minutes < 0)
             {
-                alarm.Minutes = 59;
+                Minutes = 59;
             }
 
         }
         private void BtnMinutesUpClick(object obj)
         {
-            alarm.Minutes++;
-            if (alarm.Minutes > 59)
+            Minutes++;
+            if (Minutes > 59)
             {
-                alarm.Minutes = 0;
+                Minutes = 0;
             }
         }
         public void SetTheAlarmClick(object obj)
@@ -188,6 +316,11 @@ namespace MyAwesomeAlarm.ViewModels
         private bool CanBtnMinutesUpClick(object sender)
         {
             return true;
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

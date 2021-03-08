@@ -6,16 +6,23 @@ using MyAwesomeAlarm.Services;
 
 namespace MyAwesomeAlarm.ViewModels
 {
-    public class AlarmListViewModel : ViewModelBase
+    public class AlarmListWindowViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private static string path = $"{Environment.CurrentDirectory}\\alarmlist.json";
 
         private readonly FileIOService fileIOService = new FileIOService(path);
         public BindingList<Alarm> Alarms { get; set; }
 
-        public AlarmListViewModel()
+        public AlarmListWindowViewModel()
         {
             Alarms = fileIOService.LoadData();
+        }
+
+  
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

@@ -64,9 +64,12 @@
     </Compile>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Services\FileIOService.cs" />
-    <Compile Include="ViewModels\AlarmListViewModel.cs" />
+    <Compile Include="StopWindow.xaml.cs">
+      <DependentUpon>StopWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AlarmListWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\StopWindowViewModel.cs" />
     <Page Include="AlarmListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -83,6 +86,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="StopWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Alarm.cs" />
