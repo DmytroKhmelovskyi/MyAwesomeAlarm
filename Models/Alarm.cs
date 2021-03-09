@@ -8,6 +8,7 @@ namespace MyAwesomeAlarm.Models
     {
         public int Hours { get; set; }
         public int Minutes { get; set; }
+        public string Message { get; set; }
         public string Days
         {
             get

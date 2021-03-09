@@ -6,24 +6,27 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace MyAwesomeAlarm.ViewModels
 {
-    class StopWindowViewModel : INotifyPropertyChanged
+   public class StopWindowViewModel : INotifyPropertyChanged
     {
         private MediaPlayer mediaPlayer = new MediaPlayer();
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public  ICommand CloseCommand { get; set; }
 
-        public ICommand CloseWindowCommand { get; set; }
+        public ICommand StopButtonCommand { get; set; }
         public string AlarmSongUrl { get; set; }
 
         public StopWindowViewModel()
         {
-            CloseWindowCommand = new RelayCommand(StopLayOutName, CanStopLayOutName);
-        }
+            StopButtonCommand = new RelayCommand(StopLayOutName, CanStopLayOutName);
+            CloseCommand =new RelayCommand(o => ((Window)o).Close());
+    }
 
         private void StopLayOutName(object obj)
         {

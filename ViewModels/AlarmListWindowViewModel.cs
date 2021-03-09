@@ -10,7 +10,7 @@ namespace MyAwesomeAlarm.ViewModels
     public class AlarmListWindowViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private static string path = $"{Environment.CurrentDirectory}\\alarmlist.json";
+        private static string path = $"{Environment.CurrentDirectory}\\alarmslist.json";
 
         private readonly FileIOService fileIOService = new FileIOService(path);
         public BindingList<Alarm> Alarms { get; set; }
@@ -18,7 +18,9 @@ namespace MyAwesomeAlarm.ViewModels
         public AlarmListWindowViewModel()
         {
             Alarms = fileIOService.LoadData();
+            Alarms.ListChanged += AlarmsList_ListChanged;
         }
+
         private void AlarmsList_ListChanged(object sender, ListChangedEventArgs e)
         {
             if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted || e.ListChangedType == ListChangedType.ItemChanged)

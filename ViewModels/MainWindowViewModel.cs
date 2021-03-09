@@ -67,6 +67,15 @@ namespace MyAwesomeAlarm.ViewModels
                 OnPropertyChanged("Minutes");
             }
         }
+        public string Message
+        {
+            get { return alarm.Message; }
+            set
+            {
+                alarm.Message = value;
+                OnPropertyChanged("Message");
+            }
+        }
 
         public bool Mon
         {

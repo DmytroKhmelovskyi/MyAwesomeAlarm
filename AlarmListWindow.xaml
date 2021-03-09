@@ -7,19 +7,20 @@
         DataContext="MyAwesomeAlarm.ViewModels.AlarmListWindowViewModel"
         xmlns:local="clr-namespace:MyAwesomeAlarm"
         mc:Ignorable="d"
-        Title="AlarmListWindow" Height="250" Width="420">
+        Title="AlarmListWindow" Height="250" Width="470">
   <Grid>
-    <DataGrid ItemsSource="{Binding Alarms}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="400">
+        <DataGrid ItemsSource="{Binding Alarms}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="450">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction  Command="{Binding Path=AlarmsList_ListChanged}"/>
+                    <i:InvokeCommandAction  Command="{Binding AlarmsList_ListChanged}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <DataGrid.Columns>
-        <DataGridTextColumn Header="Hour" Binding="{Binding Hours}" IsReadOnly="False" Width="90" />
-        <DataGridTextColumn Header="Minute" Binding="{Binding Minutes}" IsReadOnly="False" Width="80" />
-        <DataGridTextColumn Header="Days" Binding="{Binding Days}" IsReadOnly="False" Width="100" />
-      </DataGrid.Columns>
-    </DataGrid>
-  </Grid>
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Hour" Binding="{Binding Hours}" IsReadOnly="False" Width="90" />
+                <DataGridTextColumn Header="Minute" Binding="{Binding Minutes}" IsReadOnly="False" Width="80" />
+                <DataGridTextColumn Header="Days" Binding="{Binding Days}" IsReadOnly="False" Width="100" />
+                <DataGridTextColumn Header="Message" Binding="{Binding Days}" IsReadOnly="False" Width="170" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </Window>
