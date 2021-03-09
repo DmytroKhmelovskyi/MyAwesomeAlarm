@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
+using MyAwesomeAlarm.Commands;
 using MyAwesomeAlarm.Models;
 using MyAwesomeAlarm.Services;
 
@@ -12,22 +14,23 @@ namespace MyAwesomeAlarm.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         private static string path = $"{Environment.CurrentDirectory}\\alarmslist.json";
 
-        private readonly FileIOService fileIOService = new FileIOService(path);
+        public FileIOService FileIOService { get; set; } = new FileIOService(path);
         public BindingList<Alarm> Alarms { get; set; }
 
         public AlarmListWindowViewModel()
         {
-            Alarms = fileIOService.LoadData();
+            Alarms = FileIOService.LoadData();
             Alarms.ListChanged += AlarmsList_ListChanged;
+
         }
 
-        private void AlarmsList_ListChanged(object sender, ListChangedEventArgs e)
-        {
+        public void AlarmsList_ListChanged(object sender, ListChangedEventArgs e)
+       {
             if (e.ListChangedType == ListChangedType.ItemAdded || e.ListChangedType == ListChangedType.ItemDeleted || e.ListChangedType == ListChangedType.ItemChanged)
             {
                 try
                 {
-                    fileIOService.SaveData(sender);
+                    FileIOService.SaveData(sender);
                 }
                 catch (Exception ex)
                 {

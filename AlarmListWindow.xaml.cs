@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
+using MyAwesomeAlarm.Models;
+using MyAwesomeAlarm.Services;
 using MyAwesomeAlarm.ViewModels;
 
 namespace MyAwesomeAlarm
@@ -13,6 +17,7 @@ namespace MyAwesomeAlarm
         {
             InitializeComponent();
             DataContext = viewModel;
-    }
+        }
+
     }
 }

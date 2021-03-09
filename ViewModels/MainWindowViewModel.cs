@@ -253,6 +253,7 @@ namespace MyAwesomeAlarm.ViewModels
                 {
                     if (currentTime.Minute == al.Minutes)
                     {
+                        alarm.Message = al.Message;
                         OpenStopWindow();
                     }
 
@@ -264,6 +265,7 @@ namespace MyAwesomeAlarm.ViewModels
             StopWindow chldWindow = new StopWindow();
             var viewModel = new StopWindowViewModel();
             viewModel.AlarmSongUrl = alarmSongUrl;
+            viewModel.Message = alarm.Message;
             chldWindow.DataContext = viewModel;
             viewModel.AlarmOnSound();
             chldWindow.Show();

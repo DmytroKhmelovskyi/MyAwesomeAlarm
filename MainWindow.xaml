@@ -86,7 +86,7 @@
             </StackPanel>
             <TextBlock  Text="Message:" VerticalAlignment="Center" Height="27" Margin="0,170,0,203">
             </TextBlock>
-            <TextBox VerticalAlignment="Center" Margin="57,170,142,212"/>
+            <TextBox VerticalAlignment="Center" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" Margin="57,170,142,212"/>
             <StackPanel HorizontalAlignment="Left" Height="136" Margin="435,21,0,0" VerticalAlignment="Top" Width="133">
                 <CheckBox  HorizontalAlignment="Left" Content="Monday" Margin="20,0,0,0" IsChecked="{Binding Mon, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>
                 <CheckBox  HorizontalAlignment="Left" Content="Tuesday" Margin="20,0,0,0" IsChecked="{Binding Tue, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5" Height="20"/>

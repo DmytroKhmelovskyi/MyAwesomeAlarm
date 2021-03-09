@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace MyAwesomeAlarm.Models
 {
-    public class Alarm
+    public class Alarm : INotifyPropertyChanged
     {
-        public int Hours { get; set; }
-        public int Minutes { get; set; }
-        public string Message { get; set; }
+        private int hours;
+        private int minutes;
+        private string message;
+
+        public int Hours { get { return hours; } set { hours = value; OnPropertyChanged("Hours"); } }
+        public int Minutes { get { return minutes; } set { minutes = value; OnPropertyChanged("Minutes"); } }
+        public string Message { get { return message; } set { message = value; OnPropertyChanged("Message"); } }
         public string Days
         {
             get
@@ -54,8 +60,15 @@ namespace MyAwesomeAlarm.Models
                 if (value.Contains("Fri")) { SelectedDays.Add(DayOfWeek.Friday); }
                 if (value.Contains("Sat")) { SelectedDays.Add(DayOfWeek.Saturday); }
                 if (value.Contains("Sun")) { SelectedDays.Add(DayOfWeek.Sunday); }
+                OnPropertyChanged("Days");
             }
         }
         public HashSet<DayOfWeek> SelectedDays { get; set; } = new HashSet<DayOfWeek>();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

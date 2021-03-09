@@ -1,4 +1,5 @@
 ﻿using MyAwesomeAlarm.Commands;
+using MyAwesomeAlarm.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,27 +13,37 @@ using System.Windows.Media;
 
 namespace MyAwesomeAlarm.ViewModels
 {
-   public class StopWindowViewModel : INotifyPropertyChanged
+    public class StopWindowViewModel : INotifyPropertyChanged
     {
         private MediaPlayer mediaPlayer = new MediaPlayer();
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public  ICommand CloseCommand { get; set; }
+        private string message;
+        public ICommand CloseCommand { get; set; }
 
         public ICommand StopButtonCommand { get; set; }
         public string AlarmSongUrl { get; set; }
 
         public StopWindowViewModel()
         {
-            StopButtonCommand = new RelayCommand(StopLayOutName, CanStopLayOutName);
-            CloseCommand =new RelayCommand(o => ((Window)o).Close());
-    }
+            StopButtonCommand = new RelayCommand(StopButtonClick, CanStopButtonClick);
+            CloseCommand = new RelayCommand(o => ((Window)o).Close());
+        }
+        public string Message
+        {
+            get { return message; }
+            set
+            {
+                message = value;
+                OnPropertyChanged("Message");
+            }
+        }
 
-        private void StopLayOutName(object obj)
+        private void StopButtonClick(object obj)
         {
             mediaPlayer.Stop();
         }
-        private bool CanStopLayOutName(object obj)
+        private bool CanStopButtonClick(object obj)
         {
             return true;
         }
